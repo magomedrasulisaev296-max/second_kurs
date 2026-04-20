@@ -36,6 +36,7 @@ class Airplanes(Coordinates):
             )
         return result
 
+
     def get_api_clear(self):
         return self.api
 
