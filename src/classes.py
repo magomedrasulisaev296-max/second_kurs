@@ -1,5 +1,3 @@
-import json
-import os
 from abc import ABC, abstractmethod
 
 
@@ -36,7 +34,6 @@ class Airplanes(Coordinates):
             )
         return result
 
-
     def get_api_clear(self):
         return self.api
 
@@ -54,11 +51,3 @@ class Airplanes(Coordinates):
         if isinstance(other, Coordinates):
             return self.api > other.api
         return NotImplemented
-
-
-class Dataformating(Airplanes):
-
-    def get_json(self, data):
-        os.makedirs("json_files", exist_ok=True)
-        with open("json_files/data.json", "w", encoding="utf-8") as file:
-            json.dump(data, file, ensure_ascii=False, indent=2)
