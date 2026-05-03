@@ -8,7 +8,7 @@ from requests.adapters import HTTPAdapter, Retry
 logging.basicConfig(level=logging.INFO)
 
 
-class API(ABC):
+class API(ABC): #ABC класс
     @abstractmethod
     def get_aeroplanes(self):
         pass
