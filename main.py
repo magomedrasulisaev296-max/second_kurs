@@ -1,7 +1,8 @@
 import pprint
 
 from src.api import APIAdapter
-from src.classes import Airplanes, Dataformating
+from src.classes import Airplanes
+from src.utils import Dataformating
 
 
 def main():

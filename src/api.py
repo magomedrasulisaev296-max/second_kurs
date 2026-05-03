@@ -1,5 +1,6 @@
 import logging
 import time
+from abc import ABC, abstractmethod
 
 import requests
 from requests.adapters import HTTPAdapter, Retry
@@ -7,18 +8,24 @@ from requests.adapters import HTTPAdapter, Retry
 logging.basicConfig(level=logging.INFO)
 
 
-class APIAdapter:
+class API(ABC): #ABC класс
+    @abstractmethod
+    def get_aeroplanes(self):
+        pass
+
+
+class APIAdapter(API):
     def __init__(self):
-        self.openstreetmap_url = "https://nominatim.openstreetmap.org/search"
-        self.opensky_url = "https://opensky-network.org/api/states/all"
-        self.session = requests.Session()
+        self.__openstreetmap_url = "https://nominatim.openstreetmap.org/search"
+        self.__opensky_url = "https://opensky-network.org/api/states/all"
+        self.__session = requests.Session()
 
         retries = Retry(
             total=3, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504]
         )
-        self.session.mount("https://", HTTPAdapter(max_retries=retries))
+        self.__session.mount("https://", HTTPAdapter(max_retries=retries))
 
-        self.session.headers.update(
+        self.__session.headers.update(
             {
                 "User-Agent": "MyAwesomeApp/2.0 (magomedrasulisaev296@gmail.com)"  # Лучше указать почту
             }
@@ -34,8 +41,8 @@ class APIAdapter:
         }
 
         try:
-            resp = self.session.get(
-                self.openstreetmap_url, params=params_nominatim, timeout=10
+            resp = self.__session.get(
+                self.__openstreetmap_url, params=params_nominatim, timeout=10
             )
             resp.raise_for_status()
 
@@ -71,7 +78,9 @@ class APIAdapter:
 
         try:
             logging.info(f"Запрашиваем самолеты в зоне: {params_opensky}")
-            resp = self.session.get(self.opensky_url, params=params_opensky, timeout=15)
+            resp = self.__session.get(
+                self.__opensky_url, params=params_opensky, timeout=15
+            )
             resp.raise_for_status()
 
             aeroplanes_data = resp.json()
