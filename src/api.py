@@ -14,7 +14,7 @@ class API(ABC):
         pass
 
 
-class APIAdapter:
+class APIAdapter(API):
     def __init__(self):
         self.__openstreetmap_url = "https://nominatim.openstreetmap.org/search"
         self.__opensky_url = "https://opensky-network.org/api/states/all"
